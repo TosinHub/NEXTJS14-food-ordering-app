@@ -1,0 +1,40 @@
+import Image from "next/image";
+import React from "react";
+import MenuItem from "../menu/MenuItem";
+import SectionHeader from "./SectionHeader";
+
+const HomeMenu = () => {
+  return (
+    <section>
+      <div className="absolute left-0 right-0 w-full justify-start">
+        <div className="absolute left-0 -top-[70px] text-left -z-10 ">
+          <Image
+            src={"/images/sallad1.png"}
+            width={109}
+            height={189}
+            alt="sallad"
+          />
+        </div>
+        <div className="absolute -top-[100px] right-0 -z-10">
+          <Image
+            src={"/images/sallad2.png"}
+            width={107}
+            height={195}
+            alt="sallad"
+          />
+        </div>
+      </div>
+   <SectionHeader subHeader="check out" mainHeader="Menu" />
+      <div className="grid grid-cols-3 gap-4 pt-16">
+        <MenuItem />
+        <MenuItem /> 
+        <MenuItem /> 
+        <MenuItem /> 
+        <MenuItem /> 
+        <MenuItem />
+      </div>
+    </section>
+  );
+};
+
+export default HomeMenu;
