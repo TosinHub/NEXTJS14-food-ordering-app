@@ -1,63 +1,50 @@
 "use client";
-import { Session } from "inspector";
 import React, { FormEvent, useState } from "react";
 import Image from "next/image";
-import axios from "axios";
-import Link from "next/link";
 import { signIn } from "next-auth/react";
 
-const Register = () => {
+const page = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [creatingUser, setCreatingUser] = useState<boolean>(false);
-  const [userCreated, setUserCreated] = useState<boolean>(false);
 
   const formSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setCreatingUser(true);
-    const data = await axios.post("/api/register", { email, password });
+    const result = await signIn("credentials", {
+      email,
+      password,
+      callbackUrl: "/",
+    });
     setCreatingUser(false);
-    setUserCreated(true);
   };
-
   return (
-    <section className="text-center">
-      <h1 className=" text-primary text-4xl">Register</h1>
-      {userCreated && (
-        <div className="my-4 text-center ">
-          User created,
-          <br /> You can login{" "}
-          <Link className="font-semibold underline" href={"/login"}>
-            HERE &raquo;
-          </Link>
-        </div>
-      )}
+    <section className="mt-8">
+      <h1 className="text-center text-primary text-4xl mb-4">Login</h1>
 
-      <form action="" className="block max-w-xl mx-auto" onSubmit={formSubmit}>
+      <form className="block max-w-xl mx-auto" onSubmit={formSubmit}>
         <input
           disabled={creatingUser}
           type="email"
+          name="email"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           disabled={creatingUser}
           type="password"
+          name="password"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit" disabled={creatingUser}>
-          Register
+          Login
         </button>
 
         <div className="my-4 text-center text-gray-500 text-2xl">
           or login with provider
         </div>
-        <button
-        type="button"
-          className="flex gap-4 justify-center"
-          onClick={() => signIn("google", { callbackUrl: "/" })}
-        >
+        <button type="button" className="flex gap-4 justify-center" onClick={()=> signIn('google', {callbackUrl: '/'})}>
           {" "}
           <Image
             src={"/images/google.png"}
@@ -67,16 +54,9 @@ const Register = () => {
           />{" "}
           Login with Google
         </button>
-
-        <div className="my-4 text-gray-500 border-t">
-          Existing account? Login{" "}
-          <Link className="underline" href="/login">
-            HERE &raquo;
-          </Link>
-        </div>
       </form>
     </section>
   );
 };
 
-export default Register;
+export default page;
